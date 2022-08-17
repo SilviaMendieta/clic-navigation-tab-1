@@ -1,5 +1,7 @@
 import React, {useState} from "react";
-import { View, Text, StyleSheet, Image, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, Pressable, Alert } from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { authentication } from "../config/firebase";
 
 export default function Register(props) {
     const {navigate} = props.navigation;
@@ -7,6 +9,26 @@ export default function Register(props) {
     const [password, setPassword] = useState(null);
   
     const registrar = () => {
+        if (!email) {
+            Alert.alert('Correo Electrónico Requerido');
+        } else if(!password){
+            Alert.alert('Contraseña Requerida');
+        } else if(password.length<=6){
+            Alert.alert('Contraseña debe ser mayor a 6 caracteres');
+        } else{
+            createUserWithEmailAndPassword(authentication, email, password)
+            .then((userCredential) => {
+             const user = userCredential.user;
+             Alert.alert('Usuario Creado Correctamente');
+             navigate.navigate('Main');
+                 
+                })
+             .catch((error) => {
+              const errorCode = error.code;
+             const errorMessage = error.message;
+             // ..
+            });
+        }
         console.log(props);
     }
 

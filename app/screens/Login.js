@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import { View, Text, StyleSheet, Image, TextInput, Pressable } from "react-native";
+import TabNavigation from "../navigation/TabNavigation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 export default function Login(props) {
     const {navigation} = props;
@@ -7,8 +10,17 @@ export default function Login(props) {
     const [password, setPassword] = useState(null);
 
     const login = () => {
-        
-        console.log(props);
+        signInWithEmailAndPassword(navigation, email, password)
+        .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+         // ...
+        })
+        .catch((error) => {
+         const errorCode = error.code;
+         const errorMessage = error.message;
+  });
+        navigation.navigate('Main');
     }
 
     return (

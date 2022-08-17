@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "clic-app",
+    "name": "Clic-app",
     "slug": "clic-app",
     "version": "1.0.0",
+    "main":"node_modules/expo/AppEntry.js",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
