@@ -20,16 +20,16 @@ export default function Register(props) {
             .then((userCredential) => {
              const user = userCredential.user;
              Alert.alert('Usuario Creado Correctamente');
-             navigate.navigate('Main');
+             navigate.navigate('Login');
                  
                 })
              .catch((error) => {
               const errorCode = error.code;
              const errorMessage = error.message;
+             Alert.alert(errorCode + errorMessage);
              // ..
             });
         }
-        console.log(props);
     }
 
     return (

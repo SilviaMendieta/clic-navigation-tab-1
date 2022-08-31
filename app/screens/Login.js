@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import { View, Text, StyleSheet, Image, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, TextInput, Pressable, Alert } from "react-native";
 import TabNavigation from "../navigation/TabNavigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { authentication } from "../config/firebase";
 
 export default function Login(props) {
     const {navigation} = props;
@@ -10,18 +10,36 @@ export default function Login(props) {
     const [password, setPassword] = useState(null);
 
     const login = () => {
-        signInWithEmailAndPassword(navigation, email, password)
+        
+        if (!email){
+          Alert.alert("Correo electrónico es requerido");  
+        }else if(!password){
+            Alert.alert("Correo contraseña es requerido");
+        }else{
+        
+        signInWithEmailAndPassword(authentication, email, password)
         .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        Alert.alert("Ingreso Exitoso");
+        setEmail("");
+        setPassword("");
+        navigate("Main");
          // ...
         })
         .catch((error) => {
          const errorCode = error.code;
          const errorMessage = error.message;
-  });
-        navigation.navigate('Main');
+         if (errorCode=='auth/user-not-found'){
+            Alert.alert('Usuario no encontrado');
+         }else if(errorCode=='auth/wrong.password'){
+            Alert.alert('Contraseña incorrecta');
+         }
+         
+        });
+
     }
+};
 
     return (
         <View style={styles.container}>
